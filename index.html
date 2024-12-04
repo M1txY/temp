@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recherche de Films</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+</head>
+<body>
+    <div class="container">
+        <h1>Recherche de Films</h1>
+        <input type="text" id="search-bar" placeholder="Rechercher un film...">
+        <div id="suggestions" class="suggestions"></div>
+    </div>
+
+    <script>
+        // Charger le JSON local
+        fetch('movies_data.json')
+            .then(response => response.json())
+            .then(data => {
+                const movies = data.data.items;
+                const searchBar = document.getElementById('search-bar');
+                const suggestions = document.getElementById('suggestions');
+
+                searchBar.addEventListener('input', () => {
+                    const query = searchBar.value.toLowerCase();
+                    suggestions.innerHTML = '';
+
+                    if (query) {
+                        const filteredMovies = movies.filter(movie => movie.title.toLowerCase().includes(query));
+                        filteredMovies.forEach(movie => {
+                            const suggestionItem = document.createElement('div');
+                            suggestionItem.classList.add('suggestion-item', 'animate__animated', 'animate__fadeIn');
+                            suggestionItem.innerHTML = `
+                                <a href="https://cdn.hotstream.at/${movie.id}/play/1.mp4" target="_blank">
+                                    <span>${movie.title}</span>
+                                </a>
+                            `;
+                            suggestions.appendChild(suggestionItem);
+                        });
+                    }
+                });
+            })
+            .catch(error => console.error('Erreur lors du chargement du fichier JSON:', error));
+    </script>
+</body>
+</html>
+
+<style>
+    body {
+        font-family: 'Roboto', sans-serif;
+        background-color: #1c1c1c;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        color: #ffffff;
+    }
+    .container {
+        background: #2c2c2c;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+        width: 500px;
+        text-align: center;
+    }
+    h1 {
+        font-weight: 700;
+        margin-bottom: 20px;
+        font-size: 2rem;
+        color: #ffffff;
+    }
+    #search-bar {
+        width: 100%;
+        padding: 15px;
+        margin-bottom: 25px;
+        border: none;
+        border-radius: 8px;
+        font-size: 1rem;
+        background-color: #3c3c3c;
+        color: #ffffff;
+        transition: box-shadow 0.3s ease;
+    }
+    #search-bar:focus {
+        outline: none;
+        box-shadow: 0 0 10px #007BFF;
+    }
+    .suggestions {
+        max-height: 300px;
+        overflow-y: auto;
+        scrollbar-width: thin;
+        scrollbar-color: #555 #2c2c2c;
+    }
+    .suggestions::-webkit-scrollbar {
+        width: 8px;
+    }
+    .suggestions::-webkit-scrollbar-thumb {
+        background-color: #555;
+        border-radius: 4px;
+    }
+    .suggestion-item {
+        background-color: #444;
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 15px;
+        transition: background-color 0.3s;
+        cursor: pointer;
+    }
+    .suggestion-item:hover {
+        background-color: #555;
+    }
+    .suggestion-item a {
+        text-decoration: none;
+        color: #ffffff;
+        font-weight: 500;
+        display: block;
+        transition: color 0.3s;
+    }
+    .suggestion-item a:hover {
+        color: #1e90ff;
+    }
+    .suggestion-item span {
+        display: block;
+        font-size: 1.1rem;
+        font-weight: 700;
+    }
+</style>
