@@ -4,10 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Recherche de Films</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
     <style>
-        /* Global Styles */
+        /* Styles intégrés */
         body {
             font-family: 'Poppins', sans-serif;
             margin: 0;
@@ -20,7 +18,6 @@
             min-height: 100vh;
         }
 
-        /* Container */
         .container {
             background: rgba(255, 255, 255, 0.1);
             padding: 40px 30px;
@@ -101,29 +98,6 @@
             font-size: 1.1rem;
             font-weight: 600;
         }
-
-        @media (max-width: 768px) {
-            .container {
-                padding: 30px 20px;
-            }
-
-            h1 {
-                font-size: 1.8rem;
-            }
-
-            #search-bar {
-                font-size: 0.9rem;
-                padding: 12px;
-            }
-
-            .suggestion-item {
-                padding: 15px;
-            }
-
-            .suggestion-item a span {
-                font-size: 1rem;
-            }
-        }
     </style>
 </head>
 <body>
@@ -134,37 +108,51 @@
     </div>
 
     <script>
-        // Charger le JSON local
+        // Charger les données des films depuis le fichier JSON
         fetch('movies_data.json')
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Erreur lors du chargement du fichier JSON");
+                }
+                return response.json();
+            })
             .then(data => {
-                const movies = data.data.items;
+                const movies = data.data.items; // Récupérer les films
                 const searchBar = document.getElementById('search-bar');
                 const suggestions = document.getElementById('suggestions');
 
+                // Gérer l'événement de saisie dans la barre de recherche
                 searchBar.addEventListener('input', () => {
                     const query = searchBar.value.toLowerCase();
                     suggestions.innerHTML = '';
 
                     if (query) {
                         const filteredMovies = movies.filter(movie => movie.title.toLowerCase().includes(query));
-                        filteredMovies.forEach(movie => {
-                            const suggestionItem = document.createElement('div');
-                            suggestionItem.classList.add('suggestion-item', 'animate__animated', 'animate__fadeIn');
-                            suggestionItem.innerHTML = `
-                                <a href="vlc://https://cdn.hotstream.at/${movie.id}/play/1.mp4">
-                                    <span>${movie.title}</span> (Lire avec VLC)
-                                </a>
-                                <a href="https://cdn.hotstream.at/${movie.id}/play/1.mp4" target="_blank">
-                                    <span>${movie.title}</span> (Lire dans le navigateur)
-                                </a>
-                            `;
-                            suggestions.appendChild(suggestionItem);
-                        });
+                        if (filteredMovies.length > 0) {
+                            filteredMovies.forEach(movie => {
+                                const suggestionItem = document.createElement('div');
+                                suggestionItem.classList.add('suggestion-item');
+                                suggestionItem.innerHTML = `
+                                    <a href="vlc://https://cdn.hotstream.at/${movie.id}/play/1.mp4">
+                                        <span>${movie.title}</span> (Lire avec VLC)
+                                    </a>
+                                    <a href="https://cdn.hotstream.at/${movie.id}/play/1.mp4" target="_blank">
+                                        <span>${movie.title}</span> (Lire dans le navigateur)
+                                    </a>
+                                `;
+                                suggestions.appendChild(suggestionItem);
+                            });
+                        } else {
+                            suggestions.innerHTML = `<p>Aucun film trouvé</p>`;
+                        }
                     }
                 });
             })
-            .catch(error => console.error('Erreur lors du chargement du fichier JSON:', error));
+            .catch(error => {
+                console.error('Erreur:', error);
+                const suggestions = document.getElementById('suggestions');
+                suggestions.innerHTML = `<p>Impossible de charger les données des films.</p>`;
+            });
     </script>
 </body>
 </html>
