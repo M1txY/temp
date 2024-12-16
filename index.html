@@ -1,114 +1,166 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Recherche de Films</title>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
     <style>
-        /* Styles intégrés */
-        body {
-            font-family: 'Poppins', sans-serif;
+        :root {
+            --bg-primary: #1a1a2e;
+            --bg-secondary: #16213e;
+            --accent-color: #e94560;
+            --text-primary: #ffffff;
+            --text-secondary: #b8b8b8;
+        }
+
+        * {
             margin: 0;
             padding: 0;
-            background: linear-gradient(135deg, #141e30, #243b55);
-            color: #ffffff;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, var(--bg-primary), var(--bg-secondary));
+            color: var(--text-primary);
+            min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
+            padding: 20px;
+            line-height: 1.6;
         }
 
         .container {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 40px 30px;
-            border-radius: 12px;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 30px;
+            width: 100%;
             max-width: 600px;
-            width: 90%;
-            text-align: center;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
         }
 
-        h1 {
-            font-weight: 600;
-            font-size: 2.2rem;
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
             margin-bottom: 20px;
-            color: #e8e8e8;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
+            gap: 10px;
+        }
+
+        .header h1 {
+            color: var(--accent-color);
+            font-size: 1.8rem;
         }
 
         #search-bar {
             width: 100%;
-            padding: 15px;
-            margin-bottom: 20px;
-            border: none;
-            border-radius: 25px;
-            font-size: 1rem;
-            background-color: #2c3e50;
-            color: #ffffff;
-            text-align: center;
+            padding: 12px 20px;
+            border: 2px solid rgba(15, 52, 96, 0.5);
+            border-radius: 30px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+            font-size: 16px;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         }
 
         #search-bar:focus {
             outline: none;
-            box-shadow: 0 0 15px #3498db;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 10px rgba(233, 69, 96, 0.3);
         }
 
-        .suggestions {
-            max-height: 400px;
+        #suggestions {
+            margin-top: 20px;
+            max-height: 300px;
             overflow-y: auto;
-            scrollbar-width: thin;
-            scrollbar-color: #555 transparent;
-        }
-
-        .suggestions::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        .suggestions::-webkit-scrollbar-thumb {
-            background-color: #555;
-            border-radius: 4px;
         }
 
         .suggestion-item {
-            background-color: rgba(44, 62, 80, 0.9);
-            padding: 20px;
-            margin-bottom: 15px;
-            border-radius: 12px;
-            transition: background-color 0.3s, transform 0.2s;
-            cursor: pointer;
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.3s ease;
         }
 
         .suggestion-item:hover {
-            background-color: rgba(52, 152, 219, 0.9);
-            transform: translateY(-5px);
+            background-color: rgba(255, 255, 255, 0.1);
         }
 
-        .suggestion-item a {
+        .movie-title {
+            flex-grow: 1;
+            margin-right: 15px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 250px;
+        }
+
+        .action-links {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .action-link {
+            display: flex;
+            align-items: center;
             text-decoration: none;
-            color: #ffffff;
-            font-size: 1rem;
-            display: block;
-            font-weight: 500;
+            color: var(--text-secondary);
+            transition: color 0.3s ease;
         }
 
-        .suggestion-item a span {
-            font-size: 1.1rem;
-            font-weight: 600;
+        .action-link:hover {
+            color: var(--accent-color);
+        }
+
+        .action-link lucide-icon {
+            margin-right: 5px;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 20px;
+            }
+
+            .suggestion-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .action-links {
+                width: 100%;
+                justify-content: space-between;
+                margin-top: 10px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Recherche de Films</h1>
-        <input type="text" id="search-bar" placeholder="Rechercher un film...">
-        <div id="suggestions" class="suggestions"></div>
+        <div class="header">
+            <i data-lucide="film" color="#e94560" width="32" height="32"></i>
+            <h1>Recherche de Films</h1>
+        </div>
+        <input 
+            type="text" 
+            id="search-bar" 
+            placeholder="Rechercher un film..."
+        >
+        <div id="suggestions"></div>
     </div>
 
     <script>
-        // Charger les données des films depuis le fichier JSON
+        // Initialiser les icônes Lucide
+        lucide.createIcons();
+
+        // Charger les données des films
         fetch('movies_data.json')
             .then(response => {
                 if (!response.ok) {
@@ -117,33 +169,52 @@
                 return response.json();
             })
             .then(data => {
-                const movies = data.data.items; // Récupérer les films
+                const movies = data.data.items;
                 const searchBar = document.getElementById('search-bar');
                 const suggestions = document.getElementById('suggestions');
 
-                // Gérer l'événement de saisie dans la barre de recherche
                 searchBar.addEventListener('input', () => {
                     const query = searchBar.value.toLowerCase();
                     suggestions.innerHTML = '';
 
                     if (query) {
-                        const filteredMovies = movies.filter(movie => movie.title.toLowerCase().includes(query));
+                        const filteredMovies = movies.filter(movie => 
+                            movie.title.toLowerCase().includes(query)
+                        );
+
                         if (filteredMovies.length > 0) {
                             filteredMovies.forEach(movie => {
                                 const suggestionItem = document.createElement('div');
                                 suggestionItem.classList.add('suggestion-item');
+
                                 suggestionItem.innerHTML = `
-                                    <a href="vlc://https://cdn.hotstream.at/${movie.id}/play/1.mp4">
-                                        <span>${movie.title}</span> (Lire avec VLC)
-                                    </a>
-                                    <a href="https://cdn.hotstream.at/${movie.id}/play/1.mp4" target="_blank">
-                                        <span>${movie.title}</span> (Lire dans le navigateur)
-                                    </a>
+                                    <span class="movie-title">${movie.title}</span>
+                                    <div class="action-links">
+                                        <a href="vlc://https://cdn.hotstream.at/${movie.id}/play/1.mp4" 
+                                           class="action-link" 
+                                           title="Lire avec VLC">
+                                            <i data-lucide="play-circle" color="#10b981" width="24" height="24"></i>
+                                        </a>
+                                        <a href="https://cdn.hotstream.at/${movie.id}/play/1.mp4" 
+                                           target="_blank" 
+                                           class="action-link" 
+                                           title="Lire dans le navigateur">
+                                            <i data-lucide="eye" color="#3b82f6" width="24" height="24"></i>
+                                        </a>
+                                    </div>
                                 `;
+
                                 suggestions.appendChild(suggestionItem);
                             });
+
+                            // Réinitialiser les icônes Lucide après ajout
+                            lucide.createIcons();
                         } else {
-                            suggestions.innerHTML = `<p>Aucun film trouvé</p>`;
+                            suggestions.innerHTML = `
+                                <div class="suggestion-item">
+                                    <span>Aucun film trouvé 🎬</span>
+                                </div>
+                            `;
                         }
                     }
                 });
@@ -151,7 +222,11 @@
             .catch(error => {
                 console.error('Erreur:', error);
                 const suggestions = document.getElementById('suggestions');
-                suggestions.innerHTML = `<p>Impossible de charger les données des films.</p>`;
+                suggestions.innerHTML = `
+                    <div class="suggestion-item">
+                        <span>Impossible de charger les données des films 😞</span>
+                    </div>
+                `;
             });
     </script>
 </body>
