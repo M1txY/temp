@@ -1,0 +1,210 @@
+:root {
+    --bg-primary: #1a1a2e;
+    --bg-secondary: #16213e;
+    --accent-color: #e94560;
+    --text-primary: #ffffff;
+    --text-secondary: #b8b8b8;
+}
+
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, var(--bg-primary), var(--bg-secondary));
+    color: var(--text-primary);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+.main-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.header-icon {
+    margin-right: 10px;
+    color: var(--accent-color);
+    vertical-align: middle;
+}
+
+#search-bar {
+    width: 100%;
+    max-width: 500px;
+    padding: 12px 20px;
+    margin-top: 10px;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 25px;
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text-primary);
+    font-size: 16px;
+    transition: 0.3s;
+}
+
+#search-bar:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 10px rgba(233, 69, 96, 0.3);
+}
+
+.content {
+    width: 100%;
+    max-width: 800px;
+}
+
+.category-section {
+    margin: 20px 0;
+}
+
+.category-section h2 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    color: var(--accent-color);
+    text-transform: uppercase;
+}
+
+/* ----------------- Movies Section ----------------- */
+#movies-section .suggestions-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 15px;
+    padding: 20px;
+}
+
+#movies-section .suggestion-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    transition: background-color 0.3s ease;
+}
+
+#movies-section .suggestion-item:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+#movies-section .media-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#movies-section .media-info i {
+    color: var(--accent-color);
+    font-size: 1.5rem;
+}
+
+#movies-section .movie-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+#movies-section .action-links {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+#movies-section .action-link {
+    color: var(--text-secondary);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+#movies-section .action-link:hover {
+    color: var(--accent-color);
+}
+
+/* ----------------- Series Section ----------------- */
+#tv-section .suggestions-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 15px;
+    padding: 20px;
+}
+
+#tv-section .suggestion-item {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    transition: background-color 0.3s ease;
+}
+
+#tv-section .suggestion-item:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+#tv-section .media-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#tv-section .media-info i {
+    color: var(--accent-color);
+    font-size: 1.5rem;
+}
+
+#tv-section .movie-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+#tv-section .seasons-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#tv-section .season {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    padding: 10px;
+}
+
+#tv-section .season strong {
+    color: var(--accent-color);
+    margin-bottom: 5px;
+    display: block;
+}
+
+#tv-section .episode-list {
+    list-style: none;
+    padding-left: 20px;
+}
+
+#tv-section .episode-list li {
+    margin: 5px 0;
+}
+
+#tv-section .episode-list a {
+    text-decoration: none;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+#tv-section .episode-list a:hover {
+    color: var(--accent-color);
+}
+
+/* ----------------- Footer ----------------- */
+.footer {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
