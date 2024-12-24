@@ -89,7 +89,7 @@ fetch('movies_data.json')
                                         <strong>Saison ${season}</strong>
                                         <ul class="episode-list">
                                             ${episodes.map(ep => {
-                                                const episodeUrl = `https://cdn.hotstream.at${ep.path}`;
+                                                const episodeUrl = `https://cdn.unsealab.com${ep.path}`;
                                                 return `
                                                     <li>
                                                         <a href="vlc://${episodeUrl}" class="action-link">
