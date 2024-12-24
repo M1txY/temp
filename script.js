@@ -38,7 +38,7 @@ fetch('movies_data.json')
                 items.forEach(item => {
                     if (item.paths && item.paths.length > 0) {
                         // Construire l'URL du film
-                        const movieUrl = `https://cdn.hotstream.at${item.paths[0]}`;
+                        const movieUrl = `https://cdn.unsealab.com${item.paths[0]}`;
                         const suggestionItem = document.createElement('div');
                         suggestionItem.classList.add('suggestion-item');
         
